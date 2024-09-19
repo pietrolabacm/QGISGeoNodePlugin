@@ -402,7 +402,9 @@ class GeonodeApiClientVersion_3_4_0(GeonodeApiClientVersion_3_x):
             license=(raw_dataset.get("license") or {}).get("identifier", ""),
             constraints=raw_dataset.get("raw_constraints_other", ""),
             owner=raw_dataset.get("owner", {}).get("username", ""),
-            metadata_author=raw_dataset.get("metadata_author", {}).get("username", ""),
+            #Geonode now can have more than one metadata author?
+            #Getting only the first result of the "list of authors"
+            metadata_author=[author.get("username","") for author in raw_dataset.get("metadata_author", {})][0]
         )
         return models.Dataset(**properties)
 
